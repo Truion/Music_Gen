@@ -113,7 +113,6 @@ def sample_from_piano_rnn(rnn, sample_length=4, temperature=1, starting_sequence
 rnn = torch.load('CPU_model.pth')
 
 def main():
-    attempt = 0
     st.title('Piano Melody Generation')
     st.markdown('This is a simple web application that uses a Recurrent Neural Network to generate a piano melody.')
     
@@ -129,9 +128,9 @@ def main():
         generated_notes = sample_from_piano_rnn (rnn, sample_length=200, temperature=temperature, starting_sequence=start_seq).transpose()
         
         # Save the generated melody as a MIDI file
-        midi_filename = 'saves/Music_{}.mid'.format(attempt)
+        midi_filename = 'saves/Music.mid'
         midiwrite(midi_filename, generated_notes, dt=0.3)
-        attempt += 1
+        
         
         # Display the generated melody as a plot and as a MIDI file download link
         fig, ax = plt.subplots(figsize=(16, 6))
