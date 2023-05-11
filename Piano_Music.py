@@ -6,7 +6,7 @@ import os
 import sys
 import random
 sys.path.append('C:/Users/Midrian/Documents/Misc/Music_generate/Music-Generation/midi')
-
+import IPython.display as ipd
 import torch
 import torch.nn as nn
 from torch.autograd import Variable
@@ -28,14 +28,6 @@ import torch
 import torch.utils.data as data
 
 
-#############################
-# trainset = NotesGenerationDataset('C:/Users/Midrian/Documents/Misc/Music_generate/Music-Generation/notebooks/Nottingham/train', longest_sequence_length=None)
-
-# trainset_loader = data.DataLoader(trainset, batch_size=8,shuffle=True, drop_last=True)
-# valset = NotesGenerationDataset('C:/Users/Midrian/Documents/Misc/Music_generate/Music-Generation/notebooks/Nottingham/valid', longest_sequence_length=None)
-
-# valset_loader = data.DataLoader(valset, batch_size=8, shuffle=False, drop_last=False)
-#############################
 class RNN(nn.Module):
     def __init__(self, input_size, hidden_size, num_classes, n_layers=2):
         super(RNN, self).__init__()
@@ -123,20 +115,7 @@ def sample_from_piano_rnn(rnn, sample_length=4, temperature=1, starting_sequence
     return sampled_sequence
 
 # loading the saved model
-rnn = RNN(input_size=88, hidden_size=512, num_classes=88)
-rnn = rnn.cuda()
-
-
-trainset = NotesGenerationDataset('C:/Users/Midrian/Documents/Misc/Music_generate/Music-Generation/notebooks/Nottingham/train', longest_sequence_length=None)
-trainset_loader = data.DataLoader(trainset, batch_size=8,shuffle=True, drop_last=True)
-
-valset = NotesGenerationDataset('C:/Users/Midrian/Documents/Misc/Music_generate/Music-Generation/notebooks/Nottingham/valid', longest_sequence_length=None)
-valset_loader = data.DataLoader(valset, batch_size=8, shuffle=False, drop_last=False)
-
-lrs_triangular = get_triangular_lr(1e-2, 1e-2*3.5, len(trainset_loader))
-best_val_loss = train_model(rnn, lrs_triangular)
-
-rnn.load_state_dict(torch.load('C:/Users/Midrian/Documents/Misc/Music_generate/Music-Generation/notebooks/Music_model.pth'))
+rnn = torch.load('C:/Users/Midrian/Documents/Misc/Music_generate/Music-Generation/notebooks/Model_MUSIC.pth')
 
 def main():
     attempt = 0
@@ -158,15 +137,17 @@ def main():
         midi_filename = 'C:/Users/Midrian/Documents/Misc/Music_generate/saves/Music_{}.mid'.format(attempt)
         midiwrite(midi_filename, generated_notes, dt=0.3)
         attempt += 1
+        
         # Display the generated melody as a plot and as a MIDI file download link
         fig, ax = plt.subplots(figsize=(16, 6))
         ax.imshow(generated_notes.T, origin='lower', cmap='gray_r', aspect='auto')
         ax.set_xlabel('Time')
         ax.set_ylabel('Pitch')
         st.pyplot(fig)
-        st.markdown(f'<a href="{midi_filename}" download>Download MIDI file</a>', unsafe_allow_html=True)
-
-    
+        
+        # Add a play button to play the generated MIDI file
+        audio_data = open(midi_filename, 'rb').read()
+        st.audio(audio_data, format='audio/midi')
     
     
 if __name__ == '__main__':
