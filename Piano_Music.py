@@ -20,7 +20,6 @@ from Music_gen_utils import train_model, get_triangular_lr, NotesGenerationDatas
 from midi_utils import midiread, midiwrite
 from matplotlib import pyplot as plt
 # import skimage.io as io
-from IPython.display import FileLink
 os.environ["CUDA_VISIBLE_DEVICES"] = '0'
 #############################
 import numpy as np
