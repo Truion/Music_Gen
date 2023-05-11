@@ -117,7 +117,7 @@ def main():
     st.title('Piano Melody Generation')
     st.markdown('This is a simple web application that uses a Recurrent Neural Network to generate a piano melody.')
     
-    temperature = st.slider('Temperature', min_value=0.1, max_value=100.0, value=0.5, step=0.1)
+    temperature = st.slider('Temperature', min_value=0.1, max_value=20.0, value=0.5, step=0.01)
     start_seq = st.text_input('Starting Sequence (comma separated list of integers)', '60,64,67')
     
     start_seq = [int(s) for s in start_seq.split(',')]
