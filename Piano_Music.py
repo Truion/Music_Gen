@@ -79,14 +79,14 @@ def sample_from_piano_rnn(rnn, sample_length=4, temperature=1, starting_sequence
         current_sequence_input[0, 0, 40] = 1
         current_sequence_input[0, 0, 50] = 0
         current_sequence_input[0, 0, 56] = 0
-        current_sequence_input = Variable(current_sequence_input.cuda())
+        current_sequence_input = Variable(current_sequence_input)
     else:
         
         current_sequence_input = torch.zeros(1, 1, 88)
         current_sequence_input[0, 0, starting_sequence[0]] = 1
         current_sequence_input[0, 0, starting_sequence[1]] = 0
         current_sequence_input[0, 0, starting_sequence[2]] = 0
-        current_sequence_input = Variable(current_sequence_input.cuda())
+        current_sequence_input = Variable(current_sequence_input)
         # current_sequence_input = starting_sequence
         
     final_output_sequence = [current_sequence_input.data.squeeze(1)]
@@ -110,7 +110,7 @@ def sample_from_piano_rnn(rnn, sample_length=4, temperature=1, starting_sequence
     return sampled_sequence
 
 # loading the saved model
-rnn = torch.load('Model_MUSIC.pth')
+rnn = torch.load('CPU_model.pth')
 
 def main():
     attempt = 0
