@@ -6,7 +6,6 @@ import os
 import sys
 import random
 sys.path.append('midi')
-import IPython.display as ipd
 import torch
 import torch.nn as nn
 from torch.autograd import Variable
