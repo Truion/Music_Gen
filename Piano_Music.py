@@ -13,9 +13,6 @@ import torch.utils.data as data
 import numpy as np
 import torch
 import torch.utils.data as data
-
-from Music_gen_utils import train_model, get_triangular_lr, NotesGenerationDataset
-
 from midi_utils import midiread, midiwrite
 from matplotlib import pyplot as plt
 # import skimage.io as io
