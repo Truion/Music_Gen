@@ -5,7 +5,7 @@ import streamlit as st
 import os
 import sys
 import random
-sys.path.append('C:/Users/Midrian/Documents/Misc/Music_generate/Music-Generation/midi')
+sys.path.append('midi')
 import IPython.display as ipd
 import torch
 import torch.nn as nn
@@ -115,7 +115,7 @@ def sample_from_piano_rnn(rnn, sample_length=4, temperature=1, starting_sequence
     return sampled_sequence
 
 # loading the saved model
-rnn = torch.load('C:/Users/Midrian/Documents/Misc/Music_generate/Music-Generation/notebooks/Model_MUSIC.pth')
+rnn = torch.load('Model_MUSIC.pth')
 
 def main():
     attempt = 0
@@ -134,7 +134,7 @@ def main():
         generated_notes = sample_from_piano_rnn (rnn, sample_length=200, temperature=temperature, starting_sequence=start_seq).transpose()
         
         # Save the generated melody as a MIDI file
-        midi_filename = 'C:/Users/Midrian/Documents/Misc/Music_generate/saves/Music_{}.mid'.format(attempt)
+        midi_filename = 'saves/Music_{}.mid'.format(attempt)
         midiwrite(midi_filename, generated_notes, dt=0.3)
         attempt += 1
         
